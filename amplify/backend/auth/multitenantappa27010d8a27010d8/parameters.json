@@ -1,0 +1,54 @@
+{
+  "identityPoolName": "multitenantappa27010d8_identitypool_a27010d8",
+  "allowUnauthenticatedIdentities": false,
+  "resourceNameTruncated": "multita27010d8",
+  "userPoolName": "multitenantappa27010d8_userpool_a27010d8",
+  "autoVerifiedAttributes": ["email"],
+  "mfaConfiguration": "OFF",
+  "mfaTypes": ["SMS Text Message"],
+  "smsAuthenticationMessage": "Your authentication code is {####}",
+  "smsVerificationMessage": "Your verification code is {####}",
+  "emailVerificationSubject": "Your verification code",
+  "emailVerificationMessage": "Your verification code is {####}",
+  "defaultPasswordPolicy": false,
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [],
+  "requiredAttributes": ["email", "name"],
+  "userpoolClientGenerateSecret": true,
+  "userpoolClientRefreshTokenValidity": 30,
+  "userpoolClientWriteAttributes": ["email", "name", "custom:tenantid"],
+  "userpoolClientReadAttributes": ["email", "name", "custom:tenantid"],
+  "userpoolClientLambdaRole": "multita27010d8_userpoolclient_lambda_role",
+  "userpoolClientSetAttributes": true,
+  "sharedId": "a27010d8",
+  "resourceName": "multitenantappa27010d8a27010d8",
+  "authSelections": "identityPoolAndUserPool",
+  "authRoleArn": {
+    "Fn::GetAtt": ["AuthRole", "Arn"]
+  },
+  "unauthRoleArn": {
+    "Fn::GetAtt": ["UnauthRole", "Arn"]
+  },
+  "useDefault": "manual",
+  "thirdPartyAuth": false,
+  "userPoolGroups": true,
+  "adminQueries": false,
+  "triggers": "{\n  \"PostConfirmation\": [\n    \"add-to-group\"\n  ]\n}",
+  "hostedUI": false,
+  "userPoolGroupList": ["users", "editors"],
+  "serviceName": "Cognito",
+  "parentStack": {
+    "Ref": "AWS::StackId"
+  },
+  "permissions": [
+    "{\n  \"policyName\": \"AddToGroupCognito\",\n  \"trigger\": \"PostConfirmation\",\n  \"effect\": \"Allow\",\n  \"actions\": [\n    \"cognito-idp:AdminAddUserToGroup\",\n    \"cognito-idp:GetGroup\",\n    \"cognito-idp:CreateGroup\"\n  ],\n  \"resource\": {\n    \"paramType\": \"!GetAtt\",\n    \"keys\": [\n      \"UserPool\",\n      \"Arn\"\n    ]\n  }\n}"
+  ],
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "multitenantappa27010d8a27010d8PostConfirmation",
+      "triggerProvider": "Cognito",
+      "attributes": ["Arn", "Name"]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "add-to-group"
+  ],
+  "parentResource": "multitenantappa27010d8a27010d8",
+  "functionName": "multitenantappa27010d8a27010d8PostConfirmation",
+  "resourceName": "multitenantappa27010d8a27010d8PostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/triggers/PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "roleName": "multitenantappa27010d8a27010d8PostConfirmation",
+  "skipEdit": true,
+  "GROUP": "users",
+  "enableCors": false
+}

@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-multitenantapp-dev-73022-authRole",
+      "UnauthRoleArn": "arn:aws:iam::120110672450:role/amplify-multitenantapp-dev-73022-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::120110672450:role/amplify-multitenantapp-dev-73022-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-multitenantapp-dev-73022-deployment",
+      "UnauthRoleName": "amplify-multitenantapp-dev-73022-unauthRole",
+      "StackName": "amplify-multitenantapp-dev-73022",
+      "StackId": "arn:aws:cloudformation:eu-west-1:120110672450:stack/amplify-multitenantapp-dev-73022/71733900-1f30-11eb-9219-0239f54378b8",
+      "AmplifyAppId": "d1e70tpia3h69e"
+    },
+    "categories": {
+      "function": {
+        "multitenantappa27010d8a27010d8PostConfirmation": {
+          "GROUP": "users"
+        }
+      },
+      "auth": {
+        "multitenantappa27010d8a27010d8": {}
+      }
+    }
+  }
+}

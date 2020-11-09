@@ -1,0 +1,51 @@
+type Channel
+  @model
+  @key(
+    name: "channelByTenant"
+    fields: ["tenant"]
+    queryField: "channelByTenant"
+  )
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owner" }
+      { allow: groups, groups: ["users"], operations: [read] }
+      {
+        allow: groups
+        groups: ["editors"]
+        operations: [create, read, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  messages: [Message] @connection(keyName: "messageByChannel", fields: ["id"])
+  tenant: ID!
+  owner: ID!
+}
+
+type Message
+  @model
+  @key(
+    name: "messageByChannel"
+    fields: ["channel"]
+    queryField: "messageByChannel"
+  )
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owner" }
+      { allow: groups, groups: ["users"], operations: [read, create] }
+      {
+        allow: groups
+        groups: ["editors"]
+        operations: [read, update, create, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  channel: ID!
+  user: ID!
+  username: String!
+  message: String!
+  tenant: ID!
+  owner: ID!
+}
