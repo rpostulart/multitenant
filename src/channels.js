@@ -12,22 +12,24 @@ import {
 import { DataStore } from "@aws-amplify/datastore";
 import { Auth } from "aws-amplify";
 import { Channel } from "./models/";
-import ChannelMessage from "./channelMessages";
 import { useNavigation } from "@react-navigation/native";
 
-const Item = ({ name, id, setscreen }) => (
-  <TouchableOpacity onPress={() => setscreen({ id, name })}>
+const Item = ({ id, name, navigateToMessage }) => (
+  <TouchableOpacity onPress={() => navigateToMessage(id, name)}>
     <View style={styles.item}>
       <Text style={styles.title}>{name}</Text>
     </View>
   </TouchableOpacity>
 );
 
-export default function Channels(props) {
+export default function Channels() {
   let subscription;
   const [channels, setChannels] = useState([]);
-  const [screen, setScreen] = useState("channel");
   const navigation = useNavigation();
+
+  const navigateToMessage = (id, name) => {
+    navigation.navigate("Messages", { id, name });
+  };
 
   const loadChannelArray = async () => {
     const result = await DataStore.query(Channel);
@@ -47,7 +49,11 @@ export default function Channels(props) {
   }, []);
 
   const renderItem = ({ item }) => (
-    <Item name={item.name} id={item.id} setscreen={text => setScreen(text)} />
+    <Item
+      name={item.name}
+      id={item.id}
+      navigateToMessage={() => navigateToMessage(item.id, item.name)}
+    />
   );
 
   const onSubmit = async () => {
@@ -66,64 +72,31 @@ export default function Channels(props) {
     loadChannelArray();
   };
 
-  let content;
-
-  if (screen === "channel") {
-    content = (
-      <SafeAreaView style={styles.container}>
-        <TouchableHighlight
-          onPress={async () => {
-            setChannels([]);
-
-            navigation.navigate("Logout");
-          }}
-        >
+  return (
+    <SafeAreaView style={styles.container}>
+      <View
+        style={{
+          alignItems: "flex-end"
+        }}
+      >
+        <TouchableHighlight onPress={() => onSubmit()}>
           <Text
             style={{
               fontSize: 16,
-              color: "#b89106",
-              marginBottom: 20,
-              alignSelf: "flex-end"
+              alignItems: "flex-end"
             }}
           >
-            Logout
+            Add new channel
           </Text>
         </TouchableHighlight>
-        <Text style={{ fontSize: 26, marginBottom: 10 }}>Channels</Text>
-        <View
-          style={{
-            alignItems: "flex-end"
-          }}
-        >
-          <TouchableHighlight onPress={() => onSubmit()}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignItems: "flex-end"
-              }}
-            >
-              Add new channel
-            </Text>
-          </TouchableHighlight>
-        </View>
-        <FlatList
-          data={channels}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
-      </SafeAreaView>
-    );
-  } else {
-    content = (
-      <ChannelMessage
-        name={screen.name}
-        id={screen.id}
-        setscreen={text => setScreen(text)}
+      </View>
+      <FlatList
+        data={channels}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
       />
-    );
-  }
-
-  return content;
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

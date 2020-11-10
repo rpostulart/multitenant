@@ -20,12 +20,12 @@ const Item = ({ username, message }) => (
 );
 
 export default function Messages(props) {
+  const id = props.route.params.id;
+
   const [messages, setMessages] = useState([]);
 
   async function loadMessagesArray() {
-    const result = await DataStore.query(Message, c =>
-      c.channel("eq", props.id)
-    );
+    const result = await DataStore.query(Message, c => c.channel("eq", id));
     setMessages(result);
   }
 
@@ -48,7 +48,7 @@ export default function Messages(props) {
 
     await DataStore.save(
       new Message({
-        channel: props.id,
+        channel: id,
         user: auth.signInUserSession.accessToken.payload.sub,
         username: auth.attributes.name,
         message: "This is a new message " + identifier.getSeconds(),
@@ -62,20 +62,6 @@ export default function Messages(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableHighlight onPress={() => props.setscreen("channel")}>
-        <Text
-          style={{
-            fontSize: 16,
-            color: "#b89106",
-            marginBottom: 20
-          }}
-        >
-          Back
-        </Text>
-      </TouchableHighlight>
-      <Text style={{ fontSize: 24, marginBottom: 10 }}>
-        {props.name} channel - messages
-      </Text>
       <View
         style={{
           alignItems: "flex-end"
