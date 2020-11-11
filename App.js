@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Button } from "react-native";
 import Amplify, { Auth } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react-native";
 import { DataStore } from "@aws-amplify/datastore";
@@ -19,21 +19,6 @@ Amplify.configure({
 });
 
 const Stack = createStackNavigator();
-
-function LogoutScreen() {
-  const resetDS = async () => {
-    await DataStore.clear();
-    Auth.signOut();
-  };
-
-  resetDS();
-
-  return (
-    <View>
-      <Text>You are logged out</Text>
-    </View>
-  );
-}
 
 async function logout() {
   await DataStore.clear();
@@ -65,7 +50,6 @@ function Appstart() {
             }}
           />
           <Stack.Screen name="Messages" component={ChannelMessages} />
-          <Stack.Screen name="Logout" component={LogoutScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
